@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h1>Tasks</h1>
+
+    {% for task in tasks %}
+        <table style="border: 1px solid black">
+            <thead>
+                <tr>
+                    <td>Title</td>
+                    <td>Description</td>
+                    <td>Done</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.done }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    {% endfor %}
+
+{% endblock %}

@@ -22,6 +22,7 @@ class TaskController extends Controller
 
         $tasks = $em->getRepository('AppBundle:Task')->findAll();
 
+        dump($tasks);
         return $this->render('task/tasks.html.twig', array(
             'tasks' => $tasks
         ));
@@ -33,11 +34,19 @@ class TaskController extends Controller
      */
     public function addTaskAction(Request $request)
     {
-        $form = $this->createForm(TaskType::class, new Task());
+        $em = $this->get('doctrine')->getManager();
+        $task = new Task();
+
+        $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+            $task->setDone(false);
+
+            $em->persist($task);
+            $em->flush();
+
+            return $this->redirectToRoute('get_tasks');
         }
 
         return $this->render(':task:add.html.twig',
